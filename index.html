@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YES Generator</title>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial Black', sans-serif;
+            margin: 0;
+            height: 100vh;
+            overflow: hidden; /* Prevents scrollbars as we add more words */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .instruction {
+            position: absolute;
+            color: #ccc;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            pointer-events: none;
+        }
+
+        .word {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: transform 0.2s;
+        }
+
+        @keyframes popIn {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="instruction">Click anywhere for YES</div>
+
+    <script>
+        const versionsOfYes = [
+            "YES", "YEP", "YUP", "YEAH", "SURE", "TOTALLY", 
+            "INDEED", "ABSOLUTELY", "AFFIRMATIVE", "CERTAINLY", 
+            "YOU BET", "OF COURSE", "OKAY", "OK", "AYE", "YAS"
+        ];
+
+        const colors = ['#ff4757', '#3742fa', '#2ed573', '#ffa502', '#1e90ff', '#2f3542', '#747d8c'];
+
+        document.addEventListener('click', (e) => {
+            const word = document.createElement('div');
+            
+            // Randomize content
+            word.innerText = versionsOfYes[Math.floor(Math.random() * versionsOfYes.length)];
+            
+            // Randomize Style
+            word.className = 'word';
+            word.style.left = e.clientX + 'px';
+            word.style.top = e.clientY + 'px';
+            word.style.color = colors[Math.floor(Math.random() * colors.length)];
+            word.style.fontSize = (Math.random() * (4 - 1) + 1) + 'rem';
+            word.style.transform = `translate(-50%, -50%) rotate(${(Math.random() * 40) - 20}deg)`;
+            
+            // Add to page
+            document.body.appendChild(word);
+
+            // Optional: Remove old ones after 10 seconds to keep the page fast
+            setTimeout(() => {
+                word.style.opacity = '0';
+                setTimeout(() => word.remove(), 500);
+            }, 10000);
+        });
+    </script>
+</body>
+</html>
